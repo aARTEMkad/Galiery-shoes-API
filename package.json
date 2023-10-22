@@ -1,0 +1,26 @@
+{
+  "name": "galiery-api-backend",
+  "version": "1.0.0",
+  "description": "backend about selling shoes in a store",
+  "main": "main.js",
+  "scripts": {
+    "startdev": "nodemon main.js",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aARTEMkad/Galiery-shoes.git"
+  },
+  "author": "Artem Karpuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aARTEMkad/Galiery-shoes/issues"
+  },
+  "homepage": "https://github.com/aARTEMkad/Galiery-shoes#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.6.3",
+    "nodemailer": "^6.9.7",
+    "nodemon": "^3.0.1"
+  }
+}
