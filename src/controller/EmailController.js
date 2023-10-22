@@ -2,17 +2,19 @@ const nodemailer = require('nodemailer')
 
 
 const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    service: "gmail",
     auth: {
-        user: 'mindzeal430@gmail.com',
-        pass: '*********************8$',
+        user: '^^^^^^^^^^^^^^^^^^^^^^^^',
+        pass: '&&&&&&&&&&&&&&&&&&&&&&$',
     },
 })
 
+
+
 exports.SendEmail = async (req, res) => {
     const mailOptions = {
-        from: req.body.sendersAddres, // Адрес отправителя
-        to: 'mindzeal430@gmail.com', // Адрес получателя
+        from: "artemkovel2007@gmail.com", // Адрес отправителя
+        to: 'artemkovel2008@gmail.com', // Адрес получателя
         subject: "Helping",
         text: req.body.fullName + req.body.textbody * req.body.numberPhone, // Текст письма
     };
@@ -20,10 +22,10 @@ exports.SendEmail = async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error('error send email:', error);
-            res.status(200)
+           // res.status(400)
         } else {
             console.log('email completed send!:', info.response);
-            res.status(400)
+          //  res.status(200)
         }
     });
 }
