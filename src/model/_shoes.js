@@ -20,7 +20,7 @@ const ShoesShema = new mongoose.Schema({
 
     size: [Number],
 
-    CImage: {
+ 
         Iname: {
             type: String,
             required: true
@@ -29,8 +29,7 @@ const ShoesShema = new mongoose.Schema({
         Image: {
             data: Buffer,
             contentType: String
-        }
-    },
+        },
 
     vendorСode: {
         type: String

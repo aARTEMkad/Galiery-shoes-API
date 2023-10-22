@@ -22,7 +22,7 @@ const Storage = multer.diskStorage({
 const upload = multer({
     storage: Storage,
 }).single('testImage')
-// ----
+// ----c
 
 
 
