@@ -20,10 +20,17 @@ const ShoesShema = new mongoose.Schema({
 
     size: [Number],
 
-    // photo: {
-    //     data: [Buffer],
-    //     type: [String],
-    // },
+    CImage: {
+        Iname: {
+            type: String,
+            required: true
+        },
+
+        Image: {
+            data: Buffer,
+            contentType: String
+        }
+    },
 
     vendorСode: {
         type: String
