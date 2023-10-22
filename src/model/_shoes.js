@@ -14,16 +14,16 @@ const ShoesShema = new mongoose.Schema({
     },
 
     price: {
-        type: Int32,
+        type: Number,
         required: true
     },
 
-    size: [Int32],
+    size: [Number],
 
-    photo: {
-        data: [Buffer],
-        type: [String],
-    },
+    // photo: {
+    //     data: [Buffer],
+    //     type: [String],
+    // },
 
     vendorСode: {
         type: String
