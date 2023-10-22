@@ -1,4 +1,7 @@
 const express = require('express')
 const Router = express.Router()
 
-Router.post('/gmail/send', validaions, )
+const EmailController = require('../controller/EmailController')
+
+
+Router.post('/gmail/send', validaions, EmailController.SendEmail)
