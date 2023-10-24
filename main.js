@@ -59,6 +59,26 @@ app.post('/upload_photo', (req,res) =>{
     })
 })
 
+
+
+// const ObjectId = require('mongodb').ObjectId;
+// app.get('/photo/:id', (req, res) => {
+//     var filename = req.params.id;
+//     db.collection('myCollection').findOne({ '_id': ObjectId(filename) }, (err, result) => {
+//         if (err) return console.log(err)
+//         res.contentType('image/jpeg');
+//         res.send(result.image.buffer)
+//     })
+// })
+
+app.get('/photo/:id', async (req, res) => {
+    var filename = req.params.id
+    const getPhoto = await ShoesModel.findById(filename)
+    res.send(getPhoto)
+})
+
+
+
 //fowjeofijweoifjiowfj
 
 mongoose.connect('mongodb+srv://aARTEMkad:qwe123@cluster0.xbbyrq7.mongodb.net/?retryWrites=true&w=majority').then(() => {
