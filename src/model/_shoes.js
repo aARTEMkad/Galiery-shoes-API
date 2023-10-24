@@ -20,25 +20,22 @@ const ShoesShema = new mongoose.Schema({
 
     size: [Number],
 
- 
-        Iname: {
-            type: String,
-            required: true
-        },
-
-        Image: {
-            data: Buffer,
-            contentType: String
-        },
-
-    vendorСode: {
-        type: String
+    vendorcode: {
+        type: String,
     },
 
     color: {
         type: [String]
-    }
+    },
 
+    Iname: {
+        type: String,
+    },
+
+    Image: {
+        data: Buffer,
+        contentType: String
+    }
 })
 
 module.exports = mongoose.model('Shoes', ShoesShema)

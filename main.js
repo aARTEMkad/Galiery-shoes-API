@@ -3,7 +3,7 @@ const express = require('express')
 const app = express();
 
 const Router = require('./src/routes/routes')
-
+const ShoesModel = require('./src/model/_shoes')
 
 
 const PORT = process.env.PORT || 3000
@@ -35,34 +35,36 @@ app.post('/upload_photo', (req,res) =>{
             console.log(err)
         }
         else{
-            const newImage = new shoesModel({
-                name: req.body.name,
+            console.log(`${req.body.Iname} -- ${req.body.vendorcode} -- ${req.file.filename}`)
+
+            const newImage = new ShoesModel({
+                name: req.body.name,                
                 product: req.body.product,
                 price: req.body.price,
                 size: req.body.size,
-                vendoCode: req.body.vendoCode,
+                vendorcode: req.body.vendorcode,
                 color: req.body.color,
-                CImage: {
-                    Iname: req.body.namePhoto,
-                    Image: {
-                        data: req.file.filename,
-                        contentType: 'image/png'
-                    }
+                Iname: req.body.Iname,
+                Image: {
+                    data: req.file.filename,
+                    contentType: 'image/png'
                 }
             })
 
+
             newImage.save()
             .then(() => res.send('success'))
-            .catch((err) => res.send(`error ${err}`))
+            .catch((err) => res.send(`Kurda error ${err}`))
         }
     })
 })
 
 
-mongoose.connect('mongodb+srv://aARTEMkad:qwe123@shoesdb.gtahm1m.mongodb.net/?retryWrites=true&w=majority').then(() => {
+mongoose.connect('mongodb+srv://aARTEMkad:qwe123@cluster0.xbbyrq7.mongodb.net/?retryWrites=true&w=majority').then(() => {
     console.log("Connected MongoDB!")
 
     app.use(Router)
+    app.use(express.urlencoded({extended: true}))
 
     app.listen(PORT, (req) => {
         console.log(`starting back end port: ${PORT}`)
