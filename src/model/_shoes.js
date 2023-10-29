@@ -1,4 +1,3 @@
-const { Int32 } = require('bson')
 const mongoose = require('mongoose')
 
 const ShoesShema = new mongoose.Schema({
@@ -28,14 +27,29 @@ const ShoesShema = new mongoose.Schema({
         type: [String]
     },
 
-    Iname: {
-        type: String,
+    front_photo: {
+        filename: String,
+        originalname: String,
+        path: String,
     },
 
-    Image: {
-        data: Buffer,
-        contentType: String
-    }
+    back_photo: {
+        filename: String,
+        originalname: String,
+        path: String,
+    },
+
+    top_photo: {
+        filename: String,
+        originalname: String,
+        path: String,
+    },
+
+    aspect_photo: {
+        filename: String,
+        originalname: String,
+        path: String,
+    },
 })
 
 module.exports = mongoose.model('Shoes', ShoesShema)

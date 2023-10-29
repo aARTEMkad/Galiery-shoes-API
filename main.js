@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000
 //multer
 // ----
 const multer = require('multer')
+
 const Storage = multer.diskStorage({
     destination: 'uploads',
     filename: (req, file, cb) =>
@@ -19,45 +20,12 @@ const Storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 })
+
+
 const upload = multer({
     storage: Storage,
 }).single('testImage')
 // ----c
-
-
-
-// Photo
-
-app.post('/upload_photo', (req,res) =>{
-    upload(req, res, (err) => {
-        if(err)
-        {
-            console.log(err)
-        }
-        else{
-            console.log(`${req.body.Iname} -- ${req.body.vendorcode} -- ${req.file.filename}`)
-
-            const newImage = new ShoesModel({
-                name: req.body.name,                
-                product: req.body.product,
-                price: req.body.price,
-                size: req.body.size,
-                vendorcode: req.body.vendorcode,
-                color: req.body.color,
-                Iname: req.body.Iname,
-                Image: {
-                    data: req.file.filename,
-                    contentType: 'image/png'
-                }
-            })
-
-
-            newImage.save()
-            .then(() => res.send('success'))
-            .catch((err) => res.send(`Kurda error ${err}`))
-        }
-    })
-})
 
 
 
@@ -74,9 +42,26 @@ app.post('/upload_photo', (req,res) =>{
 app.get('/photo/:id', async (req, res) => {
     var filename = req.params.id
     const getPhoto = await ShoesModel.findById(filename)
-    res.send(getPhoto)
+    
+    res.contentType('image/png')
+    res.send(getPhoto.Image.data)
+
+    //res.send(getPhoto)
 })
 
+app.get('/photo/all', async (req, res) => {
+    try{
+        const getInfo = await ShoesModel.find()
+
+        // res.contentType('application/json')
+        // res.send(getInfo)
+    
+    }
+    catch(err)
+    {
+        console.log(`Cyka ${err}`)
+    }
+})
 
 
 //fowjeofijweoifjiowfj
