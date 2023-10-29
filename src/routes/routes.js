@@ -31,7 +31,7 @@ Router.get('/api/shoes', GetAllShoes)
 
 Router.post('/api/shoes/add', upload.array('PhotoShoes', 4), AddShoes)
 
-// Router.delete('/shoes/delete')
+Router.delete('/api/shoes/delete/:id', DeleteShoes)
 
 // Router.put('/shoes/update')
 

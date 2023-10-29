@@ -77,7 +77,21 @@ exports.AddShoes = async (req, res) => {
 }
 
 exports.DeleteShoes = async (req, res) => {
-    
+    try{
+        const Shoes = await ShoesModel.findByIdAndDelete(req.params.id)
+
+        res.status(200)
+        if(Shoes)
+        {
+            res.setHeader('Content-Type', 'application/json')
+            res.json(Shoes)
+        } else {
+            res.json('message: "there is no information"')
+        }
+    } catch(err) {
+        console.log(err)
+        res.status(404)
+    }
 }
 
 exports.UpdateShoes = async (req, res) => {
