@@ -3,7 +3,7 @@ const Router = express.Router()
 const multer = require('multer')
 
 
-const shoesValidations = require('../validations/shoes')
+const shoesValidations = require('../validations/shoes') // -
 const { GetShoesId, GetAllShoes, AddShoes, DeleteShoes, UpdateShoes } = require('../controller/ShoesController')
 
 
@@ -32,8 +32,6 @@ Router.get('/api/shoes', GetAllShoes)
 Router.post('/api/shoes/add', upload.array('PhotoShoes', 4), AddShoes)
 
 Router.delete('/api/shoes/delete/:id', DeleteShoes)
-
-// Router.put('/shoes/update')
 
 
 

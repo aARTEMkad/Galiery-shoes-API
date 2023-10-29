@@ -1,3 +1,4 @@
+const fs = require('fs')
 const { captureRejectionSymbol } = require('nodemailer/lib/xoauth2')
 const ShoesModel = require('../model/_shoes')
 
@@ -83,6 +84,18 @@ exports.DeleteShoes = async (req, res) => {
         res.status(200)
         if(Shoes)
         {
+            const path = __dirname.replace('src/controller', '')
+
+            console.log(path + Shoes.front_photo.path)
+
+            if(fs.existsSync(path + Shoes.front_photo.path))
+            {
+                fs.unlink(path + Shoes.front_photo.path, (err) => console.log(err))
+                fs.unlink(path + Shoes.back_photo.path, (err) => console.log(err))
+                fs.unlink(path + Shoes.top_photo.path, (err) => console.log(err))
+                fs.unlink(path + Shoes.aspect_photo.path, (err) => console.log(err))
+            }
+
             res.setHeader('Content-Type', 'application/json')
             res.json(Shoes)
         } else {
