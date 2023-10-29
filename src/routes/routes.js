@@ -4,7 +4,7 @@ const multer = require('multer')
 
 
 const shoesValidations = require('../validations/shoes')
-const { GetShoes, AddShoes, DeleteShoes, UpdateShoes } = require('../controller/ShoesController')
+const { GetShoesId, GetAllShoes, AddShoes, DeleteShoes, UpdateShoes } = require('../controller/ShoesController')
 
 
 
@@ -25,7 +25,9 @@ const upload = multer({ storage: storage })
 
 Router.use(express.json());
 
-// Router.get('/shoes/getlist')
+Router.get('/api/shoes/:id', GetShoesId)
+
+Router.get('/api/shoes', GetAllShoes)
 
 Router.post('/api/shoes/add', upload.array('PhotoShoes', 4), AddShoes)
 

@@ -4,8 +4,30 @@ const ShoesModel = require('../model/_shoes')
 
 
 
-exports.GetShoes = async (req, res) => {
-    ShoesModel.find()
+exports.GetShoesId = async (req, res) => {
+    try{
+        const Shoes = await ShoesModel.findById(req.params.id)
+        
+        res.status(200)
+        res.setHeader('Content-Type', 'application/json')
+        res.json(Shoes)
+    } catch(err) {
+        console.log(err)
+        res.status(404)
+    }
+}
+
+exports.GetAllShoes = async (req, res) => {
+    try{
+        const Shoes = await ShoesModel.find({})
+
+        res.status(200)
+        res.setHeader('Content-Type', 'application/json')
+        res.json(Shoes)
+    } catch(err) {
+        console.log(err)
+        res.status(502)
+    }
 }
 
 exports.AddShoes = async (req, res) => {
