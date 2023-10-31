@@ -122,8 +122,6 @@ exports.DeleteShoes = async (req, res) => {
 // -----
 exports.UpdateShoes = async (req, res) => { // JSON
 
-    
-
     try{
         const shoesId = req.params.id
         const getShoesId = await ShoesModel.findById(shoesId)
