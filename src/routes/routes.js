@@ -36,8 +36,4 @@ Router.delete('/api/shoes/delete/:id', DeleteShoes)
 Router.put('/api/shoes/update/:id', upload.array('PhotoShoes', 4), UpdateShoes)
 
 
-
-
-
-
 module.exports = Router

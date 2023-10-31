@@ -110,70 +110,18 @@ exports.DeleteShoes = async (req, res) => {
 
 
 exports.UpdateShoes = async (req, res) => { // JSON
+
+
+
     try{
-        console.log('Update---!!!')
-        let ShoesIdGet = ShoesModel.findById(req.params.id)
-        console.log(ShoesIdGet)
-        console.log('1')
-    
-        if(req.file !== undefined)
-        {
-            ShoesIdGet.front_photo.filename = req.files[0].filename
-            ShoesIdGet.front_photo.originalname = req.files[0].originalname
-            ShoesIdGet.front_photo.path = req.files[0].path
-    
-            ShoesIdGet.back_photo.filename = req.files[0].filename
-            ShoesIdGet.back_photo.originalname = req.files[0].originalname
-            ShoesIdGet.back_photo.path = req.files[0].path
-    
-            ShoesIdGet.top_photo.filename = req.files[0].filename
-            ShoesIdGet.top_photo.originalname = req.files[0].originalname
-            ShoesIdGet.top_photo.path = req.files[0].path
-    
-            ShoesIdGet.aspect_photo.filename = req.files[0].filename
-            ShoesIdGet.aspect_photo.originalname = req.files[0].originalname
-            ShoesIdGet.aspect_photo.path = req.files[0].path
-    
-        }
-        console.log('2')
-    
-    
-        // const newShoes = new ShoesModel({
-        //     name: req.body.name,                
-        //     product: req.body.product,
-        //     price: req.body.price,
-        //     size: req.body.size,
-        //     vendorcode: req.body.vendorcode,
-        //     color: req.body.color,
-    
-            // front_photo: {
-            //     filename: req.files[0].filename,
-            //     originalname: req.files[0].originalname,
-            //     path: req.files[0].path
-            // },
-            // back_photo: {
-            //     filename: req.files[1].filename,
-            //     originalname: req.files[1].originalname,
-            //     path: req.files[1].path
-            // },
-            // top_photo: {
-            //     filename: req.files[2].filename,
-            //     originalname: req.files[2].originalname,
-            //     path: req.files[2].path
-            // },
-            // aspect_photo: {
-            //     filename: req.files[3].filename,
-            //     originalname: req.files[3].originalname,
-            //     path: req.files[3].path
-            // }
-        // })
-        ShoesModel.findByIdAndUpdate({_id: req.params.id}, ShoesIdGet)
+        const shoesId = req.params.id
+        const shoes = await ShoesModel.findByIdAndUpdate({_id: shoesId}, req.body, {new: true})
+        //console.log(shoes)
         res.status(200)
-      //  res.setHeader('Content-Type', 'application/json')
-        res.send(ShoesIdGet)
-        console.log('3')
+        res.json({shoes})
     } catch(err) {
         console.log(err)
+        res.status(404)
     }
 }
 
