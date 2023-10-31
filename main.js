@@ -11,20 +11,7 @@ const PORT = process.env.PORT || 3000
 
 //multer
 // ----
-const multer = require('multer')
 
-const Storage = multer.diskStorage({
-    destination: 'uploads',
-    filename: (req, file, cb) =>
-    {
-        cb(null, file.originalname)
-    }
-})
-
-
-const upload = multer({
-    storage: Storage,
-}).single('testImage')
 // ----c
 
 
@@ -33,7 +20,7 @@ const upload = multer({
 // app.get('/photo/:id', (req, res) => {
 //     var filename = req.params.id;
 //     db.collection('myCollection').findOne({ '_id': ObjectId(filename) }, (err, result) => {
-//         if (err) return console.log(err)
+//         if (err) rturn console.log(err)
 //         res.contentType('image/jpeg');
 //         res.send(result.image.buffer)
 //     })
