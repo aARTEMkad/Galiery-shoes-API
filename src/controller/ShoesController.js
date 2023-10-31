@@ -1,5 +1,4 @@
 const fs = require('fs')
-const { captureRejectionSymbol } = require('nodemailer/lib/xoauth2')
 const ShoesModel = require('../model/_shoes')
 
 
@@ -119,6 +118,8 @@ exports.DeleteShoes = async (req, res) => {
 
 
 
+
+// -----
 exports.UpdateShoes = async (req, res) => { // JSON
 
     
