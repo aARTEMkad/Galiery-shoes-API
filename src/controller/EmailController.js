@@ -35,3 +35,15 @@ exports.GetAllEmailMessage = async (req, res) => {
         console.log(err)
     }
 }
+
+exports.DeleteEmailMessage = async (req, res) => {
+    try{
+        const emailMess = await EmailMessageModel.findByIdAndDelete({ _id: req.params.id})
+        res.status(200)
+        res.setHeader('Content-Type', 'application/json')
+        res.json(emailMess)
+    } catch(err) {
+        console.log(err)
+        res.status(404)
+    }
+}
