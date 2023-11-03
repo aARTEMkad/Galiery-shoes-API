@@ -116,12 +116,7 @@ exports.DeleteShoes = async (req, res) => {
     }
 }
 
-
-
-
-// -----
-exports.UpdateShoes = async (req, res) => { // JSON
-
+exports.UpdateShoes = async (req, res) => {
     try{
         
         if(req.params.updatePhoto == 'true') {

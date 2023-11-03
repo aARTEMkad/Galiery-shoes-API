@@ -4,10 +4,12 @@ const app = express();
 
 const Router = require('./src/routes/routes')
 
-const PORT = process.env.PORT || 3000
+
+require('dotenv').config()
+const PORT = process.env.PORT || 3001
 
 
-mongoose.connect('mongodb+srv://aARTEMkad:qwe123@cluster0.xbbyrq7.mongodb.net/?retryWrites=true&w=majority').then(() => {
+mongoose.connect(process.env.CONNECT_DB).then(() => {
     console.log("Connected MongoDB!")
 
     app.use(Router)
