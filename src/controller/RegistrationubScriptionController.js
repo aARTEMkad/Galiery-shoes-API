@@ -3,8 +3,8 @@ const nodemailer = require('nodemailer')
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'your_email@gmail.com',
-        pass: 'your_password',
+        user: process.env.GMAIL,
+        pass: process.env.PASS,
     },
 })
 
@@ -13,10 +13,10 @@ exports.RegistraScription = async (req, res) => {
     try {
         console.log('KURAW>', process.env.PORT)
         const mailOptions = {
-            from: 'your_email@gmail.com',
-            to: 'recipient@example.com',
+            from: process.env.GMAIL,
+            to: req.body.gmail,
             subject: 'Hello from Node.js',
-            text: 'This is a test email sent from Node.js',
+            text: `${req.body.Name}, ${req.body.Surname} ${req.body.numberPhone} This is a test email sent from Node.js`,
         }
 
         transporter.sendMail(mailOptions, (err, info) => {

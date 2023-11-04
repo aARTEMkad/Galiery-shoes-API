@@ -7,7 +7,7 @@ const upload = multer()
 const { RegistraScription } = require('../controller/RegistrationubScriptionController')
 
 Router.use(express.json());
-Router.use(upload.fields([]))
+//Router.use(upload.fields([]))
 
 Router.post('/api/registration-of-scription', RegistraScription)
 
