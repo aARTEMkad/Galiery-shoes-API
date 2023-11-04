@@ -2,11 +2,7 @@ const express = require('express')
 const Router = express.Router()
 const multer = require('multer')
 
-
-const shoesValidations = require('../validations/shoes') // -
 const { GetShoesId, GetAllShoes, AddShoes, DeleteShoes, UpdateShoes } = require('../controller/ShoesController')
-
-
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -19,9 +15,6 @@ const storage = multer.diskStorage({
 
 
 const upload = multer({ storage: storage })
-
-
-
 
 Router.use(express.json());
 
