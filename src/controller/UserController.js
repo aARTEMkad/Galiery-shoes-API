@@ -1,7 +1,7 @@
 const UserSchema = require('../model/_user')
 
 
-exports.Registration = async (req, res) => {
+exports.Registration = async (req, res) => { // --
     try {
         const Users = new UserSchema({
             name: req.body.name,
@@ -30,7 +30,7 @@ exports.Registration = async (req, res) => {
     }
 }
 
-exports.Login = async (req, res) => {
+exports.Login = async (req, res) => { // --
     try {
         const User = await UserSchema.findOne({email: req.body.email})
 
