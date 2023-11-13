@@ -14,10 +14,7 @@ const PORT = process.env.PORT || 3001
 mongoose.connect(process.env.CONNECT_DB).then(() => {
     console.log("Connected MongoDB!")
 
-    app.use(Router)
-    app.use(emailRouter)
-    app.use(RegistraScription)
-    app.use(userRouter)
+    app.use(Router, emailRouter, RegistraScription, userRouter)
     app.use(express.urlencoded({extended: true}))
 
     app.listen(PORT, (req) => {

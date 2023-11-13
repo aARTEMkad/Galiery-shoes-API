@@ -32,12 +32,10 @@ exports.Registration = async (req, res) => {
 
 exports.Login = async (req, res) => {
     try {
-        console.log(req.body.email)
         const User = await UserSchema.findOne({email: req.body.email})
 
         res.setHeader('Content-Type', 'application/json')
         res.json(User)
-        console.log('Ok')
         res.status(200)
     } catch(err) {
         console.log(err)
