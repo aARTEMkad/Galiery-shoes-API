@@ -36,6 +36,10 @@ const UserSchema = new mongoose.Schema({
 
     isAcceptReadDeclaration: {
         type: Boolean,
+    },
+
+    isAdmin: {
+        type: Boolean,
     }
 })
 

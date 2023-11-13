@@ -13,6 +13,7 @@ exports.Registration = async (req, res) => {
             phone_number: req.body.phone_number,
             isAcceptGetInfo: req.body.isAcceptGetInfo,
             isAcceptReadDeclaration: req.body.isAcceptReadDeclaration,
+            isAdmin: req.body.isAdmin,
         })
 
         Users.save().then(() => {
@@ -31,15 +32,13 @@ exports.Registration = async (req, res) => {
 
 exports.Login = async (req, res) => {
     try {
-        const User = await UserSchema.findOne({email: req.body.email}, (err, user) => {
-            if(err) {
-                console.log(err)
-                res.status(404)
-            } else {
-                console.log('Ok')
-                res.status(200)
-            }
-        })
+        console.log(req.body.email)
+        const User = await UserSchema.findOne({email: req.body.email})
+
+        res.setHeader('Content-Type', 'application/json')
+        res.json(User)
+        console.log('Ok')
+        res.status(200)
     } catch(err) {
         console.log(err)
         res.status(404)
