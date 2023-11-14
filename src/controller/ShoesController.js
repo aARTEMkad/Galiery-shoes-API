@@ -41,6 +41,7 @@ exports.AddShoes = async (req, res) => {
                 size: req.body.size,
                 vendorcode: req.body.vendorcode,
                 color: req.body.color,
+                isSoon: req.body.isSoon,
         
                 front_photo: {
                     filename: req.files[0].filename,

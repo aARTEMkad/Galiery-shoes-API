@@ -27,6 +27,10 @@ const ShoesShema = new mongoose.Schema({
         type: [String]
     },
 
+    isSoon: {
+        type: Boolean,
+    },
+
     front_photo: {
         filename: String,
         originalname: String,
@@ -53,13 +57,3 @@ const ShoesShema = new mongoose.Schema({
 })
 
 module.exports = mongoose.model('Shoes', ShoesShema)
-
-/* JSON shoes:
-
-Name,
-Product,
-Price,
-Size,
-Photo,
-Artykul,
-Color*/
