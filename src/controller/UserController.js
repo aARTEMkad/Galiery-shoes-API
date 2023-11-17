@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt')
 
 const UserSchema = require('../model/_user')
+const JwtToken = require('../service/jwt_token')
 
 
 exports.Registration = async (req, res) => {
     try {
-
         if((req.body.verified_password == req.body.password) && (req.body.verified_email))
         {
             const pass = await bcrypt.hash(req.body.password, 3)
@@ -20,11 +20,18 @@ exports.Registration = async (req, res) => {
                 isAcceptReadDeclaration: req.body.isAcceptReadDeclaration,
                 isAdmin: req.body.isAdmin,
             })
-    
+
             Users.save().then(() => {
-                res.status(201)
-                res.setHeader('Content-Type', 'application/json')
-                res.json(Users)// continue add token
+                const Tokeny = JwtToken.createTokens(Users)
+
+                if(Tokeny === null) {
+                    res.status(500)
+                    res.end()
+                } else {
+                    res.setHeader('set-cookie', [`AccessToken=${Tokeny.AccessToken}`, `RefreshToken=${Tokeny.RefreshToken}`])
+                    res.status(201)
+                    res.send({message: "everything is done"})
+                }
             }).catch((err) => {
                 console.log(err)
                 res.status(400)
