@@ -18,12 +18,12 @@ mongoose.connect(process.env.CONNECT_DB).then(() => {
     console.log("Connected MongoDB!")
 
     app.use(cookieParser())
-    app.use((req, res, next) => {
-        console.log("audit ")
-        console.log(req.cookies.AccessToken)
-        console.log(req.cookies.RefreshToken)
-        next()
-    })
+    // app.use((req, res, next) => {
+    //     console.log("audit ")
+    //     console.log(req.cookies.AccessToken)
+    //     console.log(req.cookies.RefreshToken)
+    //     next()
+    // })
     app.use(ShoesRouter, emailRouter, RegistraScription, userRouter)
     app.use(express.urlencoded({extended: true}))
 

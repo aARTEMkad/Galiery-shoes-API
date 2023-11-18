@@ -3,10 +3,9 @@ const bcrypt = require('bcrypt')
 const UserSchema = require('../model/_user')
 const JwtToken = require('../service/jwt_token')
 
-
 exports.Registration = async (req, res) => {
     try {
-        if((req.body.verified_password == req.body.password) && (req.body.verified_email))
+        if((req.body.verified_password == req.body.password) && (req.body.verified_email == req.body.email))
         {
             const pass = await bcrypt.hash(req.body.password, 3)
 
@@ -49,13 +48,34 @@ exports.Registration = async (req, res) => {
 
 exports.Login = async (req, res) => { // --
     try {
-        const User = await UserSchema.findOne({email: req.body.email})
+        try {
+            const User = await UserSchema.findOne({email: req.body.email})
 
-        res.setHeader('Content-Type', 'application/json')
-        res.json(User)
-        res.status(200)
+            if(User){
+                if(bcrypt.compare(req.body.password, User.password)){
+                    const Tokeny = JwtToken.createTokens(User)
+    
+                    if(Tokeny === null) {
+                        res.status(500)
+                        res.send({err: "error"})
+                    } else {
+                        res.setHeader('set-cookie', [`AccessToken=${Tokeny.AccessToken}`, `RefreshToken=${Tokeny.RefreshToken}`])
+                        res.status(200)
+                        res.send({message: "everything is done"})
+                    }
+                } else {
+                    res.status(400)
+                    res.send({message: "incorrect information"})
+                }
+            } else {
+                res.status(404).json({message: "don't found user"})
+            }
+        } catch(err){
+            console.log(err)
+            res.status(400)
+        }
     } catch(err) {
         console.log(err)
-        res.status(404)
+        res.status(500)
     }
 }
