@@ -20,6 +20,27 @@ exports.createTokens = (User) => {
     }
 }
 
+exports.RefreshToken = (User, token, Key) => {
+    try{
+        const decoded = jwt.verify(token, Key)
+        if(decoded != NULL){
+            const userData = {
+                userId: User.id,
+                isAdmin: User.isAdmin 
+            }
+
+            const AccessToken = jwt.sign(userData, process.env.ACCESS_JWT_TOKEN_KEY, { expiresIn: '20m' })
+
+            return AccessToken
+        } else {
+            return NULL
+        }
+    } catch(err) {
+        return NULL
+    }
+}
+
+
 exports.auditToken = (Token, Key) => {
     try{
         const decoded = jwt.verify(Token, Key)

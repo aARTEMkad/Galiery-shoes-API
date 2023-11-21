@@ -46,7 +46,7 @@ exports.Registration = async (req, res) => {
     }
 }
 
-exports.Login = async (req, res) => { // --
+exports.Login = async (req, res) => { // +
     try {
         try {
             const User = await UserSchema.findOne({email: req.body.email})
@@ -60,6 +60,7 @@ exports.Login = async (req, res) => { // --
                         res.send({err: "error"})
                     } else {
                         res.setHeader('set-cookie', [`AccessToken=${Tokeny.AccessToken}`, `RefreshToken=${Tokeny.RefreshToken}`])
+                        console.log(Tokeny.RefreshToken)
                         res.status(200)
                         res.send({message: "everything is done"})
                     }
@@ -77,5 +78,43 @@ exports.Login = async (req, res) => { // --
     } catch(err) {
         console.log(err)
         res.status(500)
+    }
+}
+
+exports.TokenUpdate = async (req, res) => { // -
+    try {
+        const Key = process.env.REFRESH_JWT_TOKEN_KEY
+        console.log(req.cookies)
+        const RefreshToken = jwt.verify(req.cookies.RefreshToken, Key)
+        if(RefreshToken) {
+            const User = await UserSchema.findById(RefreshToken.userId)
+
+            const userData = {
+                userId: User.id,
+                isAdmin: User.isAdmin 
+            }
+
+            res.setHeader('set-cookie', [`AccessToken=${jwt.sign(userData, process.env.ACCESS_JWT_TOKEN_KEY, { expiresIn: '20m' })}`])
+            res.status(200).json({message: "good!"})
+        }
+    } catch(err){
+        console.log(err)
+        res.status(500).json({message: "error"})
+    }
+}
+
+exports.logout = async (req, res) => { // +
+    try{
+        
+        if(req.cookies.RefreshToken)
+        {
+            res.clearCookie('RefreshToken', { path: '/api/user' })
+            res.clearCookie('AccessToken', { path: '/api/user' })
+            res.status(200).json({message: "user logout"})    
+        } else {
+            res.status(404).json({message: "don't logout user"})
+        }
+    } catch(err) {
+        res.status(500).json({message: "error"})
     }
 }
