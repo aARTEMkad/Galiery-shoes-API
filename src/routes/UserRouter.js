@@ -9,7 +9,7 @@ Router.post('/api/user/registration', Registration)
 
 Router.post('/api/user/login', Login)
 
-Router.get('/api/token/update', TokenUpdate)
+Router.get('/api/user/update', TokenUpdate)
 
 Router.get('/api/user/logout', logout)
 

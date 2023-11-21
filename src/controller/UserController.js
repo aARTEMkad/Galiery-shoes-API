@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const UserSchema = require('../model/_user')
 const JwtToken = require('../service/jwt_token')
@@ -81,10 +82,9 @@ exports.Login = async (req, res) => { // +
     }
 }
 
-exports.TokenUpdate = async (req, res) => { // -
+exports.TokenUpdate = async (req, res) => { // rework
     try {
         const Key = process.env.REFRESH_JWT_TOKEN_KEY
-        console.log(req.cookies)
         const RefreshToken = jwt.verify(req.cookies.RefreshToken, Key)
         if(RefreshToken) {
             const User = await UserSchema.findById(RefreshToken.userId)

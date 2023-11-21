@@ -20,7 +20,7 @@ exports.createTokens = (User) => {
     }
 }
 
-exports.RefreshToken = (User, token, Key) => {
+exports.RefreshToken = (User, token, Key) => { // --
     try{
         const decoded = jwt.verify(token, Key)
         if(decoded != NULL){
