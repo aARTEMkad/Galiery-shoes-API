@@ -28,7 +28,9 @@ exports.Registration = async (req, res) => {
                     res.status(500)
                     res.end()
                 } else {
-                    res.setHeader('set-cookie', [`AccessToken=${Tokeny.AccessToken}`, `RefreshToken=${Tokeny.RefreshToken}`])
+                //    res.setHeader('set-cookie', [`AccessToken=${Tokeny.AccessToken}`, `RefreshToken=${Tokeny.RefreshToken}`])
+                    res.cookie('AccessToken', Tokeny.AccessToken, {path: '/'})
+                    res.cookie('RefreshToken', Tokeny.RefreshToken, {path: '/'})
                     res.status(201)
                     res.send({message: "everything is done"})
                 }
@@ -47,7 +49,7 @@ exports.Registration = async (req, res) => {
     }
 }
 
-exports.Login = async (req, res) => { // +
+exports.Login = async (req, res, next) => { // +
     try {
         try {
             const User = await UserSchema.findOne({email: req.body.email})
@@ -60,8 +62,10 @@ exports.Login = async (req, res) => { // +
                         res.status(500)
                         res.send({err: "error"})
                     } else {
-                        res.setHeader('set-cookie', [`AccessToken=${Tokeny.AccessToken}`, `RefreshToken=${Tokeny.RefreshToken}`])
-                        console.log(Tokeny.RefreshToken)
+                        //res.setHeader('set-cookie', [`AccessToken=${Tokeny.AccessToken}`, `RefreshToken=${Tokeny.RefreshToken}`])
+                        res.cookie('AccessToken', Tokeny.AccessToken, {path: '/'})
+                        res.cookie('RefreshToken', Tokeny.RefreshToken, {path: '/'})
+                        //console.log(Tokeny.RefreshToken)
                         res.status(200)
                         res.send({message: "everything is done"})
                     }
@@ -80,11 +84,13 @@ exports.Login = async (req, res) => { // +
         console.log(err)
         res.status(500)
     }
+    next()
 }
 
-exports.TokenUpdate = async (req, res) => { // rework
+exports.TokenUpdate = async (req, res) => { // rework(używać kiedy access token nie dżiała)
     try {
         const Key = process.env.REFRESH_JWT_TOKEN_KEY
+        console.log(req.cookies)
         const RefreshToken = jwt.verify(req.cookies.RefreshToken, Key)
         if(RefreshToken) {
             const User = await UserSchema.findById(RefreshToken.userId)
@@ -93,8 +99,9 @@ exports.TokenUpdate = async (req, res) => { // rework
                 userId: User.id,
                 isAdmin: User.isAdmin 
             }
+            res.cookie('AccessToken', jwt.sign(userData, process.env.ACCESS_JWT_TOKEN_KEY, { expiresIn: '20m' }), {path: '/'})
 
-            res.setHeader('set-cookie', [`AccessToken=${jwt.sign(userData, process.env.ACCESS_JWT_TOKEN_KEY, { expiresIn: '20m' })}`])
+            //res.setHeader('set-cookie', [`AccessToken=${jwt.sign(userData, process.env.ACCESS_JWT_TOKEN_KEY, { expiresIn: '20m' })}`])
             res.status(200).json({message: "good!"})
         }
     } catch(err){
@@ -108,8 +115,8 @@ exports.logout = async (req, res) => { // +
         
         if(req.cookies.RefreshToken)
         {
-            res.clearCookie('RefreshToken', { path: '/api/user' })
-            res.clearCookie('AccessToken', { path: '/api/user' })
+            res.clearCookie('RefreshToken', { path: '/' })
+            res.clearCookie('AccessToken', { path: '/' })
             res.status(200).json({message: "user logout"})    
         } else {
             res.status(404).json({message: "don't logout user"})

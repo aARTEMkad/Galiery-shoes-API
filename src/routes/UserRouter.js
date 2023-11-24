@@ -5,12 +5,12 @@ const { Registration, Login, TokenUpdate, logout } = require('../controller/User
 
 Router.use(express.json());
 
-Router.post('/api/user/registration', Registration)
+Router.post('/user/registration', Registration)
 
-Router.post('/api/user/login', Login)
+Router.post('/user/login', Login)
 
-Router.get('/api/user/update', TokenUpdate)
+Router.get('/user/update', TokenUpdate)
 
-Router.get('/api/user/logout', logout)
+Router.get('/user/logout', logout)
 
 module.exports = Router
