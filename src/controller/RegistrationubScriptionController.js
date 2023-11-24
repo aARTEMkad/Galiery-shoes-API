@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
 })
 
 
-exports.RegistraScription = async (req, res) => {
+exports.RegistraScription = async (req, res) => { // --
     try {
         console.log('KURAW>', process.env.PORT)
         const mailOptions = {
