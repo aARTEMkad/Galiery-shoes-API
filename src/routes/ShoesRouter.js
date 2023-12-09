@@ -6,7 +6,9 @@ const { GetShoesId, GetAllShoes, AddShoes, DeleteShoes, UpdateShoes } = require(
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/')
+        const dest = 'uploads/'
+        console.log('Destation:', dest)
+        cb(null, dest)
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname)
@@ -15,17 +17,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-Router.use(express.json());
-
 Router.get('/api/shoes/:id', GetShoesId)
 
 Router.get('/api/shoes', GetAllShoes)
 
-Router.post('/api/shoes/add', upload.array('PhotoShoes', 4), AddShoes)
+Router.post('/api/shoes/add', upload.fields([{ name: "FrontPhoto", maxCount: 1 }, { name: "BackPhoto", maxCount: 1}, { name: "TopPhoto", maxCount: 1 }, { name: "AspectPhoto", maxCount: 1 }]), AddShoes)
 
 Router.delete('/api/shoes/delete/:id', DeleteShoes)
 
-Router.put('/api/shoes/update/:id/:updatePhoto', upload.array('PhotoShoes', 4), UpdateShoes)
+Router.put('/api/shoes/update/:id/:updatePhoto', upload.fields([{ name: "FrontPhoto", maxCount: 1 }, { name: "BackPhoto", maxCount: 1}, { name: "TopPhoto", maxCount: 1 }, { name: "AspectPhoto", maxCount: 1 }]), UpdateShoes)
 
 
 module.exports = Router

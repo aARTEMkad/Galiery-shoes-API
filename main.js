@@ -19,11 +19,13 @@ mongoose.connect(process.env.CONNECT_DB).then(() => {
 
     app.use(cookieParser())
 
-    app.use('/api', tokenCheck)
+ //   app.use('/api', tokenCheck)
+
+    app.use(express.urlencoded({extended: true}))
+    app.use(express.json())
+
 
     app.use(emailRouter, RegistraScription, userRouter, ShoesRouter)
-    app.use(express.urlencoded({extended: true}))
-
     app.listen(PORT, (req) => {
         console.log(`starting back end port: ${PORT}`)
     })

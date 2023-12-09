@@ -2,7 +2,7 @@ const express = require('express')
 const Router = express.Router()
 const multer = require('multer')
 
-const upload = multer()
+//const upload = multer()
 
 const { RegistraScription } = require('../controller/RegistrationubScriptionController')
 

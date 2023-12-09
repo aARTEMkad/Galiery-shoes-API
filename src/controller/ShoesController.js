@@ -32,6 +32,7 @@ exports.GetAllShoes = async (req, res) => {
 
 exports.AddShoes = async (req, res) => {
     try{
+        console.log(req.fileValidationError)
         if(req.files && Object.keys(req.files).length == 4)
         {
             const newShoes = new ShoesModel({
@@ -44,24 +45,24 @@ exports.AddShoes = async (req, res) => {
                 isSoon: req.body.isSoon,
         
                 front_photo: {
-                    filename: req.files[0].filename,
-                    originalname: req.files[0].originalname,
-                    path: req.files[0].path
+                    filename: req.files.FrontPhoto[0].filename,
+                    originalname: req.files.FrontPhoto[0].originalname,
+                    path: req.files.FrontPhoto[0].path
                 },
                 back_photo: {
-                    filename: req.files[1].filename,
-                    originalname: req.files[1].originalname,
-                    path: req.files[1].path
+                    filename: req.files.BackPhoto[0].filename,
+                    originalname: req.files.BackPhoto[0].originalname,
+                    path: req.files.BackPhoto[0].path
                 },
                 top_photo: {
-                    filename: req.files[2].filename,
-                    originalname: req.files[2].originalname,
-                    path: req.files[2].path
+                    filename: req.files.TopPhoto[0].filename,
+                    originalname: req.files.TopPhoto[0].originalname,
+                    path: req.files.TopPhoto[0].path
                 },
                 aspect_photo: {
-                    filename: req.files[3].filename,
-                    originalname: req.files[3].originalname,
-                    path: req.files[3].path
+                    filename: req.files.AspectPhoto[0].filename,
+                    originalname: req.files.AspectPhoto[0].originalname,
+                    path: req.files.AspectPhoto[0].path
                 }
             })
     
@@ -133,24 +134,24 @@ exports.UpdateShoes = async (req, res) => {
     
 
                 req.body.front_photo = {
-                    filename: req.files[0].filename,
-                    originalname: req.files[0].originalname,
-                    path: req.files[0].path
+                    filename: req.files.FrontPhoto[0].filename,
+                    originalname: req.files.FrontPhoto[0].originalname,
+                    path: req.files.FrontPhoto[0].path
                 }
                 req.body.back_photo = {
-                    filename: req.files[1].filename,
-                    originalname: req.files[1].originalname,
-                    path: req.files[1].path
+                    filename: req.files.BackPhoto[0].filename,
+                    originalname: req.files.BackPhoto[0].originalname,
+                    path: req.files.BackPhoto[0].path
                 }
                 req.body.top_photo = {
-                    filename: req.files[2].filename,
-                    originalname: req.files[2].originalname,
-                    path: req.files[2].path
+                    filename: req.files.TopPhoto[0].filename,
+                    originalname: req.files.TopPhoto[0].originalname,
+                    path: req.files.TopPhoto[0].path
                 }
                 req.body.aspect_photo = {
-                    filename: req.files[3].filename,
-                    originalname: req.files[3].originalname,
-                    path: req.files[3].path
+                    filename: req.files.AspectPhoto[0].filename,
+                    originalname: req.files.AspectPhoto[0].originalname,
+                    path: req.files.AspectPhoto[0].path
                 }
 
                 const shoes = await ShoesModel.findByIdAndUpdate({_id: req.params.id}, req.body, {new: true})
