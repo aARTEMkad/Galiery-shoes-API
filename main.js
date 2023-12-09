@@ -18,9 +18,6 @@ mongoose.connect(process.env.CONNECT_DB).then(() => {
     console.log("Connected MongoDB!")
 
     app.use(cookieParser())
-
- //   app.use('/api', tokenCheck)
-
     app.use(express.urlencoded({extended: true}))
     app.use(express.json())
 

@@ -16,17 +16,15 @@ exports.SendEmailMessage = async (req, res) => {
             })
     
             emailMessage.save().then(() => {
-                res.status(201)
-                res.setHeader('Content-Type', 'application/json')
-                res.json(emailMessage)
+                res.status(201).setHeader('Content-Type', 'application/json').json(emailMessage)
             }).catch((err) => {
                 console.log(err)
-                res.status(502)
+                res.status(502).json({message: `Error: ${err}`})
             })
         }       
     } catch(err) {
         console.log(err)
-        res.status(404)
+        res.status(404).json({message: `Error: ${err}`})
     }
 }
 
@@ -34,9 +32,7 @@ exports.GetAllEmailMessage = async (req, res) => {
     try{
         const allEmailMessage = await EmailMessageModel.find({})
 
-        res.status(200)
-        res.setHeader('Content-Type', 'application/json')
-        res.json(allEmailMessage)
+        res.status(200).setHeader('Content-Type', 'application/json').json(allEmailMessage)
     } catch(err) {
         console.log(err)
     }
@@ -46,23 +42,19 @@ exports.GetIdEmailMessage = async (req, res) => {
     try {
         const emailMessage = await EmailMessageModel.findById(req.params.id)
 
-        res.status(200)
-        res.setHeader('Content-Type', 'application/json')
-        res.json(emailMessage)
+        res.status(200).setHeader('Content-Type', 'application/json').json(emailMessage)
     } catch(err) {
         console.log(err)
-        res.status(404)
+        res.status(404).json({message: `Error: ${err}`})
     }
 }
 
 exports.DeleteEmailMessage = async (req, res) => {
     try{
         const emailMess = await EmailMessageModel.findByIdAndDelete({ _id: req.params.id})
-        res.status(200)
-        res.setHeader('Content-Type', 'application/json')
-        res.json(emailMess)
+        res.status(200).setHeader('Content-Type', 'application/json').json(emailMess)
     } catch(err) {
         console.log(err)
-        res.status(404)
+        res.status(404).json({message: `Error: ${err}`})
     }
 }

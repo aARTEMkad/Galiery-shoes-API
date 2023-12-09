@@ -6,6 +6,7 @@ const JwtToken = require('../service/jwt_token')
 
 exports.Registration = async (req, res) => {
     try {
+        console.log(req.body)
         if((req.body.verified_password == req.body.password) && (req.body.verified_email == req.body.email))
         {
             const pass = await bcrypt.hash(req.body.password, 3)
@@ -25,66 +26,51 @@ exports.Registration = async (req, res) => {
                 const Tokeny = JwtToken.createTokens(Users)
 
                 if(Tokeny === null) {
-                    res.status(500)
-                    res.end()
+                    res.status(500).end()
                 } else {
-                //    res.setHeader('set-cookie', [`AccessToken=${Tokeny.AccessToken}`, `RefreshToken=${Tokeny.RefreshToken}`])
                     res.cookie('AccessToken', Tokeny.AccessToken, {path: '/'})
                     res.cookie('RefreshToken', Tokeny.RefreshToken, {path: '/'})
-                    res.status(201)
-                    res.send({message: "everything is done"})
+                    res.status(201).send({message: "everything is done"})
                 }
             }).catch((err) => {
                 console.log(err)
-                res.status(400)
-                res.json(`err: ${err}`)
+                res.status(400).json({message: `Error: ${err}`})
             })
         } else {
-            res.status(400)
-            res.json({error: "Error password or email"})
+            res.status(400).json({message: "Error password or email"})
         }
     } catch(err) {
         console.log(err)
-        res.status(400)
+        res.status(400).json({message: `Error: ${err}`})
     }
 }
 
-exports.Login = async (req, res, next) => { // +
+exports.Login = async (req, res, next) => {
     try {
-        try {
-            const User = await UserSchema.findOne({email: req.body.email})
+        const User = await UserSchema.findOne({email: req.body.email})
 
-            if(User){
-                if(bcrypt.compare(req.body.password, User.password)){
-                    const Tokeny = JwtToken.createTokens(User)
-    
-                    if(Tokeny === null) {
-                        res.status(500)
-                        res.send({err: "error"})
-                    } else {
-                        //res.setHeader('set-cookie', [`AccessToken=${Tokeny.AccessToken}`, `RefreshToken=${Tokeny.RefreshToken}`])
-                        res.cookie('AccessToken', Tokeny.AccessToken, {path: '/'})
-                        res.cookie('RefreshToken', Tokeny.RefreshToken, {path: '/'})
-                        //console.log(Tokeny.RefreshToken)
-                        res.status(200)
-                        res.send({message: "everything is done"})
-                    }
+        if(User){
+            if(bcrypt.compare(req.body.password, User.password)){
+                const Tokeny = JwtToken.createTokens(User)
+
+                if(Tokeny === null) {
+                    res.status(500)
+                    res.send({err: "error"})
                 } else {
-                    res.status(400)
-                    res.send({message: "incorrect information"})
+                    res.cookie('AccessToken', Tokeny.AccessToken, {path: '/'})
+                    res.cookie('RefreshToken', Tokeny.RefreshToken, {path: '/'})
+                    res.status(200).send({message: "everything is done"})
                 }
             } else {
-                res.status(404).json({message: "don't found user"})
+                res.status(400).send({message: "incorrect information"})
             }
-        } catch(err){
-            console.log(err)
-            res.status(400)
+        } else {
+            res.status(404).json({message: "don't found user"})
         }
-    } catch(err) {
+    } catch(err){
         console.log(err)
-        res.status(500)
+        res.status(400).json({message: `Error ${err}`})
     }
-    next()
 }
 
 exports.TokenUpdate = async (req, res) => { // rework(używać kiedy access token nie dżiała)
@@ -101,22 +87,19 @@ exports.TokenUpdate = async (req, res) => { // rework(używać kiedy access toke
             }
             res.cookie('AccessToken', jwt.sign(userData, process.env.ACCESS_JWT_TOKEN_KEY, { expiresIn: '20m' }), {path: '/'})
 
-            //res.setHeader('set-cookie', [`AccessToken=${jwt.sign(userData, process.env.ACCESS_JWT_TOKEN_KEY, { expiresIn: '20m' })}`])
             res.status(200).json({message: "good!"})
         }
     } catch(err){
         console.log(err)
-        res.status(500).json({message: "error"})
+        res.status(500).json({message: `Error: ${err}`})
     }
 }
 
-exports.logout = async (req, res) => { // +
+exports.logout = async (req, res) => { 
     try{
-        
         if(req.cookies.RefreshToken)
         {
-            res.clearCookie('RefreshToken', { path: '/' })
-            res.clearCookie('AccessToken', { path: '/' })
+            res.clearCookie('RefreshToken', { path: '/' }).clearCookie('AccessToken', { path: '/' })
             res.status(200).json({message: "user logout"})    
         } else {
             res.status(404).json({message: "don't logout user"})

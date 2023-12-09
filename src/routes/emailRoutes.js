@@ -1,15 +1,8 @@
 const express = require('express')
 const Router = express.Router()
-//const multer = require('multer')
-
-//const upload = multer()
 
 const { SendEmailMessage, GetAllEmailMessage, GetIdEmailMessage, DeleteEmailMessage } = require('../controller/EmailController')
 const emailValidator = require('../validations/EmailValidator')
-
-
-Router.use(express.json());
-//Router.use(upload.fields([]))
 
 Router.get('/api/email/getall', GetAllEmailMessage)
 
