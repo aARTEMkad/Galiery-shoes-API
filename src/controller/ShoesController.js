@@ -8,12 +8,10 @@ exports.GetShoesId = async (req, res) => {
     try{
         const Shoes = await ShoesModel.findById(req.params.id)
         
-        res.status(200)
-        res.setHeader('Content-Type', 'application/json')
-        res.json(Shoes)
+        res.status(200).setHeader('Content-Type', 'application/json').json(Shoes)
     } catch(err) {
         console.log(err)
-        res.status(404)
+        res.status(404).json({message: `Error: ${err}`})
     }
 }
 
@@ -21,18 +19,15 @@ exports.GetAllShoes = async (req, res) => {
     try{
         const Shoes = await ShoesModel.find({})
 
-        res.status(200)
-        res.setHeader('Content-Type', 'application/json')
-        res.json(Shoes)
+        res.status(200).setHeader('Content-Type', 'application/json').json(Shoes)
     } catch(err) {
         console.log(err)
-        res.status(502)
+        res.status(502).json({message: `Error: ${err}`})
     }
 }
 
 exports.AddShoes = async (req, res) => {
     try{
-        console.log(req.fileValidationError)
         if(req.files && Object.keys(req.files).length == 4)
         {
             const newShoes = new ShoesModel({
@@ -67,12 +62,10 @@ exports.AddShoes = async (req, res) => {
             })
     
             newShoes.save().then(() => {
-                res.status(201)
-                res.setHeader('Content-Type', 'application/json')
-                res.json(newShoes)
+                res.status(201).setHeader('Content-Type', 'application/json').json(newShoes)
             }).catch((err) => {
                 console.log(err)
-                res.status(502)
+                res.status(502).json({message: `Error: ${err}`})
             })
         } else {
             const path = __dirname.replace('src/controller', '')
@@ -82,14 +75,11 @@ exports.AddShoes = async (req, res) => {
             req.files[2] ? fs.unlink(path + req.files[2].path, (err) => console.log(err)) : console.log('2 - the file is not deleted')
             req.files[3] ? fs.unlink(path + req.files[3].path, (err) => console.log(err)) : console.log('3 - the file is not deleted')
 
-            res.status(404)
-            res.setHeader('Content-Type', 'application/json')
-            res.json(req.files)
+            res.status(404).setHeader('Content-Type', 'application/json').json(req.files)
         }
-        
     } catch(err) {
         console.log(err)
-        res.status(400)
+        res.status(400).json({message: `Error: ${err}`})
     }
 }
 
@@ -107,20 +97,18 @@ exports.DeleteShoes = async (req, res) => {
             fs.unlink(path + Shoes.top_photo.path, (err) => { if(err){ console.log(err) } else{ console.log('good deleted')}})
             fs.unlink(path + Shoes.aspect_photo.path, (err) => { if(err){ console.log(err) } else{ console.log('good deleted')}})
 
-            res.setHeader('Content-Type', 'application/json')
-            res.json(Shoes)
+            res.setHeader('Content-Type', 'application/json').json(Shoes)
         } else {
             res.json('message: "there is no information"')
         }
     } catch(err) {
         console.log(err)
-        res.status(404)
+        res.status(404).json({message: `Error: ${err}`})
     }
 }
 
 exports.UpdateShoes = async (req, res) => {
-    try{
-        
+    try{ 
         if(req.params.updatePhoto == 'true') {
             if(req.files && Object.keys(req.files).length == 4)
             {
@@ -155,17 +143,14 @@ exports.UpdateShoes = async (req, res) => {
                 }
 
                 const shoes = await ShoesModel.findByIdAndUpdate({_id: req.params.id}, req.body, {new: true})
-                res.status(200)
-                res.json({shoes})
+                res.status(200).json({shoes})
             } else {
-                res.status(400)
-                res.send('error')
+                res.status(400).send('error')
             }
         } else {
             const shoesId = req.params.id
             const shoes = await ShoesModel.findByIdAndUpdate({_id: shoesId}, req.body, {new: true})
-            res.status(200)
-            res.json({shoes})
+            res.status(200).json({shoes})
         }
     } catch(err) {
         console.log(err)
