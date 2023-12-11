@@ -17,7 +17,7 @@ exports.GetShoesId = async (req, res) => {
 
 exports.GetAllShoes = async (req, res) => {
     try{
-        const Shoes = await ShoesModel.find({})
+        const Shoes = await ShoesModel.find(req.body)
 
         res.status(200).setHeader('Content-Type', 'application/json').json(Shoes)
     } catch(err) {
