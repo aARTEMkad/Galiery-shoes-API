@@ -42,25 +42,33 @@ exports.AddShoes = async (req, res) => {
                 front_photo: {
                     filename: req.files.FrontPhoto[0].filename,
                     originalname: req.files.FrontPhoto[0].originalname,
-                    path: req.files.FrontPhoto[0].path
+                    path: req.files.FrontPhoto[0].path,
+                    data: req.files.FrontPhoto[0].toString('base64')
                 },
                 back_photo: {
                     filename: req.files.BackPhoto[0].filename,
                     originalname: req.files.BackPhoto[0].originalname,
-                    path: req.files.BackPhoto[0].path
+                    path: req.files.BackPhoto[0].path,
+                    data: req.files.FrontPhoto[0].toString('base64')
                 },
                 top_photo: {
                     filename: req.files.TopPhoto[0].filename,
                     originalname: req.files.TopPhoto[0].originalname,
-                    path: req.files.TopPhoto[0].path
+                    path: req.files.TopPhoto[0].path,
+                    data: req.files.FrontPhoto[0].toString('base64')
                 },
                 aspect_photo: {
                     filename: req.files.AspectPhoto[0].filename,
                     originalname: req.files.AspectPhoto[0].originalname,
-                    path: req.files.AspectPhoto[0].path
+                    path: req.files.AspectPhoto[0].path,
+                    data: req.files.FrontPhoto[0].toString('base64')
                 }
             })
-    
+            console.log(req.files.AspectPhoto[0])
+            console.log('\n----------------------------\n')
+            console.log(newShoes.top_photo)
+            
+
             newShoes.save().then(() => {
                 res.status(201).setHeader('Content-Type', 'application/json').json(newShoes)
             }).catch((err) => {

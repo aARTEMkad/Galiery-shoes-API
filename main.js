@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const express = require('express')
 const cookieParser = require('cookie-parser');
 const app = express();
+const cors = require('cors')
 
 const ShoesRouter = require('./src/routes/ShoesRouter')
 const emailRouter = require('./src/routes/emailRoutes')
@@ -20,7 +21,7 @@ mongoose.connect(process.env.CONNECT_DB).then(() => {
     app.use(cookieParser())
     app.use(express.urlencoded({extended: true}))
     app.use(express.json())
-
+    app.use(cors())
 
     app.use(emailRouter, RegistraScription, userRouter, ShoesRouter)
     app.listen(PORT, (req) => {
