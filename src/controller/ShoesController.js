@@ -28,6 +28,8 @@ exports.GetAllShoes = async (req, res) => {
 
 exports.AddShoes = async (req, res) => {
     try{
+        const path = __dirname.replace('src/controller', '')
+
         if(req.files && Object.keys(req.files).length == 4)
         {
             const newShoes = new ShoesModel({
@@ -43,31 +45,27 @@ exports.AddShoes = async (req, res) => {
                     filename: req.files.FrontPhoto[0].filename,
                     originalname: req.files.FrontPhoto[0].originalname,
                     path: req.files.FrontPhoto[0].path,
-                    data: req.files.FrontPhoto[0].toString('base64')
+                    data: fs.readFileSync(path + req.files.FrontPhoto[0].path).toString('base64')
                 },
                 back_photo: {
                     filename: req.files.BackPhoto[0].filename,
                     originalname: req.files.BackPhoto[0].originalname,
                     path: req.files.BackPhoto[0].path,
-                    data: req.files.FrontPhoto[0].toString('base64')
+                    data: fs.readFileSync(path + req.files.BackPhoto[0].path).toString('base64')
                 },
                 top_photo: {
                     filename: req.files.TopPhoto[0].filename,
                     originalname: req.files.TopPhoto[0].originalname,
                     path: req.files.TopPhoto[0].path,
-                    data: req.files.FrontPhoto[0].toString('base64')
+                    data: fs.readFileSync(path + req.files.TopPhoto[0].path).toString('base64')
                 },
                 aspect_photo: {
                     filename: req.files.AspectPhoto[0].filename,
                     originalname: req.files.AspectPhoto[0].originalname,
                     path: req.files.AspectPhoto[0].path,
-                    data: req.files.FrontPhoto[0].toString('base64')
+                    data: fs.readFileSync(path + req.files.AspectPhoto[0].path).toString('base64')
                 }
             })
-            console.log(req.files.AspectPhoto[0])
-            console.log('\n----------------------------\n')
-            console.log(newShoes.top_photo)
-            
 
             newShoes.save().then(() => {
                 res.status(201).setHeader('Content-Type', 'application/json').json(newShoes)
@@ -76,8 +74,6 @@ exports.AddShoes = async (req, res) => {
                 res.status(502).json({message: `Error: ${err}`})
             })
         } else {
-            const path = __dirname.replace('src/controller', '')
-
             req.files[0] ? fs.unlink(path + req.files[0].path, (err) => console.log(err)) : console.log('0 - the file is not deleted')
             req.files[1] ? fs.unlink(path + req.files[1].path, (err) => console.log(err)) : console.log('1 - the file is not deleted')
             req.files[2] ? fs.unlink(path + req.files[2].path, (err) => console.log(err)) : console.log('2 - the file is not deleted')
@@ -132,22 +128,26 @@ exports.UpdateShoes = async (req, res) => {
                 req.body.front_photo = {
                     filename: req.files.FrontPhoto[0].filename,
                     originalname: req.files.FrontPhoto[0].originalname,
-                    path: req.files.FrontPhoto[0].path
+                    path: req.files.FrontPhoto[0].path,
+                    data: fs.readFileSync(path + req.files.FrontPhoto[0].path).toString('base64')
                 }
                 req.body.back_photo = {
                     filename: req.files.BackPhoto[0].filename,
                     originalname: req.files.BackPhoto[0].originalname,
-                    path: req.files.BackPhoto[0].path
+                    path: req.files.BackPhoto[0].path,
+                    data: fs.readFileSync(path + req.files.BackPhoto[0].path).toString('base64')
                 }
                 req.body.top_photo = {
                     filename: req.files.TopPhoto[0].filename,
                     originalname: req.files.TopPhoto[0].originalname,
-                    path: req.files.TopPhoto[0].path
+                    path: req.files.TopPhoto[0].path,
+                    data: fs.readFileSync(path + req.files.TopPhoto[0].path).toString('base64')
                 }
                 req.body.aspect_photo = {
                     filename: req.files.AspectPhoto[0].filename,
                     originalname: req.files.AspectPhoto[0].originalname,
-                    path: req.files.AspectPhoto[0].path
+                    path: req.files.AspectPhoto[0].path,
+                    data: fs.readFileSync(path + req.files.AspectPhoto[0].path).toString('base64')
                 }
 
                 const shoes = await ShoesModel.findByIdAndUpdate({_id: req.params.id}, req.body, {new: true})

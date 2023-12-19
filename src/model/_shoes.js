@@ -35,28 +35,28 @@ const ShoesShema = new mongoose.Schema({
         filename: String,
         originalname: String,
         path: String,
-        data: Buffer,
+        data: String,
     },
 
     back_photo: {
         filename: String,
         originalname: String,
         path: String,
-        data: Buffer,
+        data: String,
     },
 
     top_photo: {
         filename: String,
         originalname: String,
         path: String,
-        data: Buffer,
+        data: String,
     },
 
     aspect_photo: {
         filename: String,
         originalname: String,
         path: String,
-        data: Buffer,
+        data: String,
     },
 })
 
