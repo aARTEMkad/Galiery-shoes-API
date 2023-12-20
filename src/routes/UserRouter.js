@@ -1,16 +1,17 @@
 const express = require('express')
 const Router = express.Router()
 
-const { Registration, Login, TokenUpdate, logout } = require('../controller/UserController')
+const userController = require('../controller/UserController')
+const UserController = new userController()
 
 Router.use(express.json());
 
-Router.post('/user/registration', Registration)
+Router.post('/user/registration', UserController.Registration)
 
-Router.post('/user/login', Login)
+Router.post('/user/login', UserController.Login)
 
-Router.get('/user/update', TokenUpdate)
+Router.get('/user/update', UserController.TokenUpdate)
 
-Router.get('/user/logout', logout)
+Router.get('/user/logout', UserController.logout)
 
 module.exports = Router

@@ -1,15 +1,16 @@
 const express = require('express')
 const Router = express.Router()
 
-const { SendEmailMessage, GetAllEmailMessage, GetIdEmailMessage, DeleteEmailMessage } = require('../controller/EmailController')
+const emailController = require('../controller/EmailController')
+const EmailController = new emailController()
 const emailValidator = require('../validations/EmailValidator')
 
-Router.get('/api/email/getall', GetAllEmailMessage)
+Router.get('/api/email/getall', EmailController.GetAllEmailMessage)
 
-Router.get('/api/email/get/:id', GetIdEmailMessage)
+Router.get('/api/email/get/:id', EmailController.GetIdEmailMessage)
 
-Router.post('/api/email/send', emailValidator, SendEmailMessage)
+Router.post('/api/email/send', emailValidator, EmailController.SendEmailMessage)
 
-Router.delete('/api/email/delete/:id', DeleteEmailMessage)
+Router.delete('/api/email/delete/:id', EmailController.DeleteEmailMessage)
 
 module.exports = Router

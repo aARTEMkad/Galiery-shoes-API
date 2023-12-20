@@ -1,5 +1,12 @@
 const jwt = require('jsonwebtoken')
 
+
+class User {
+    async createTokens(User) {
+        
+    }
+}
+
 exports.createTokens = (User) => {
     try{
         const userData = {
@@ -7,7 +14,7 @@ exports.createTokens = (User) => {
             isAdmin: User.isAdmin 
         }
 
-        const AccessToken = jwt.sign(userData, process.env.ACCESS_JWT_TOKEN_KEY, { expiresIn: '20m' })
+        const AccessToken = jwt.sign(userData, process.env.ACCESS_JWT_TOKEN_KEY, { expiresIn: '30m' })
         const RefreshToken = jwt.sign(userData, process.env.REFRESH_JWT_TOKEN_KEY, { expiresIn: '30d' })
         
         const ObjectToken = {
