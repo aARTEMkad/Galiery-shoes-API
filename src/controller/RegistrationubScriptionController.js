@@ -1,3 +1,4 @@
+require('dotenv').config()
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
@@ -15,11 +16,12 @@ exports.RegistraScription = async (req, res) => { // --
             from: process.env.GMAIL,
             to: req.body.gmail,
             subject: 'Hello from Node.js',
-            text: `${req.body.Name}, ${req.body.Surname} ${req.body.numberPhone} This is a test email sent from Node.js`,
+            text: `${req.body.FullName}, ${req.body.numberPhone}. \n ${req.body.message}`,
         }
 
         transporter.sendMail(mailOptions, (err, info) => {
             if(err) {
+                console.log(process.env.GMAIL)
                 console.log('Error sending email: ', err);
                 res.status(400).json({ error: err })
             } else {
